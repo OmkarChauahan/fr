@@ -1,0 +1,220 @@
+.attendance-modal {
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.employee-name {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.attendance-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.month-select,
+.year-select {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.attendance-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.stat-card svg {
+  flex-shrink: 0;
+}
+
+.present-card { background: #dcfce7; color: #15803d; }
+.half-card { background: #fef3c7; color: #b45309; }
+.absent-card { background: #fee2e2; color: #dc2626; }
+.hours-card { background: #dbeafe; color: #1e40af; }
+.percentage-card { background: #e0e7ff; color: #4f46e5; }
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.calendar-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #f9fafb;
+  border: 2px solid transparent;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.calendar-day.present {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #22c55e;
+}
+
+.calendar-day.half-day {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #f59e0b;
+}
+
+.calendar-day.absent {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #ef4444;
+}
+
+.calendar-day.future {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.calendar-day.today {
+  box-shadow: 0 0 0 3px #4f46e5;
+}
+
+.calendar-day:hover:not(.empty):not(.future) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.day-number {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.day-icon {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.legend-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+.legend-box.present {
+  background: #dcfce7;
+  border-color: #22c55e;
+}
+
+.legend-box.half-day {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.legend-box.absent {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+.legend-box.future {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .attendance-modal {
+    max-width: 95vw;
+  }
+
+  .attendance-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calendar-day {
+    font-size: 12px;
+  }
+
+  .day-number {
+    font-size: 14px;
+  }
+
+  .legend {
+    gap: 12px;
+  }
+}
