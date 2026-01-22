@@ -1,24 +1,24 @@
-// admin-frontend/src/components/auth/LoginScreen.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react';
 import Alert from '../common/Alert';
 
+// ⭐ Environment variable for API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const LoginScreen = () => {
-  const { login } = useAuth(); // ⭐ Removed register from here
+  const { login } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Login Form State
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
   });
 
-  // Register Form State
   const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
@@ -26,9 +26,7 @@ const LoginScreen = () => {
     confirmPassword: ''
   });
 
-  // Forgot Password State
   const [forgotEmail, setForgotEmail] = useState('');
-
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -49,7 +47,6 @@ const LoginScreen = () => {
       const result = await login(loginData.email, loginData.password);
       if (result.success) {
         setSuccess('Login successful! Redirecting...');
-        // ⭐ Navigation handled in AuthContext
       } else {
         setError(result.error || 'Invalid credentials');
         setLoading(false);
@@ -67,7 +64,6 @@ const LoginScreen = () => {
     setSuccess('');
     setLoading(true);
 
-    // Validation
     if (!registerData.name || !registerData.email || !registerData.password || !registerData.confirmPassword) {
       setError('Please fill in all fields');
       setLoading(false);
@@ -98,7 +94,8 @@ const LoginScreen = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      // ⭐ FIXED - Using environment variable
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -113,7 +110,6 @@ const LoginScreen = () => {
       if (data.success) {
         setSuccess('Registration successful! Please login with your credentials.');
         
-        // Clear registration form
         setRegisterData({
           name: '',
           email: '',
@@ -121,11 +117,9 @@ const LoginScreen = () => {
           confirmPassword: ''
         });
 
-        // Switch to login tab after 2 seconds
         setTimeout(() => {
           setIsLogin(true);
           setSuccess('');
-          // Pre-fill email in login form
           setLoginData({
             email: registerData.email,
             password: ''
@@ -155,7 +149,8 @@ const LoginScreen = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      // ⭐ FIXED - Using environment variable
+      const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: forgotEmail })
@@ -246,7 +241,6 @@ const LoginScreen = () => {
   // Login/Register Screen
   return (
     <div className="auth-container">
-      {/* Left Side - Illustration */}
       <div className="auth-illustration">
         <div className="illustration-content">
           <div className="floating-element element-1"></div>
@@ -274,7 +268,6 @@ const LoginScreen = () => {
         </div>
       </div>
 
-      {/* Right Side - Auth Form */}
       <div className="auth-form-container">
         <div className="auth-card animate-slide-in">
           <div className="auth-header">
@@ -282,7 +275,6 @@ const LoginScreen = () => {
             <p>{isLogin ? 'Sign in to your admin panel' : 'Join us to manage your business'}</p>
           </div>
 
-          {/* Toggle Tabs */}
           <div className="auth-tabs">
             <button
               className={`tab ${isLogin ? 'active' : ''}`}
@@ -309,7 +301,6 @@ const LoginScreen = () => {
             </button>
           </div>
 
-          {/* Login Form */}
           {isLogin ? (
             <form onSubmit={handleLogin} className="auth-form">
               <Alert type="error" message={error} onClose={() => setError('')} />
@@ -374,7 +365,6 @@ const LoginScreen = () => {
               </button>
             </form>
           ) : (
-            /* Register Form */
             <form onSubmit={handleRegister} className="auth-form">
               <Alert type="error" message={error} onClose={() => setError('')} />
               <Alert type="success" message={success} onClose={() => setSuccess('')} />
